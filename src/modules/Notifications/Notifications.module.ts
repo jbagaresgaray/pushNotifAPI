@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { NotificationsController } from './controllers/Notifications.controller';
 import { NotificationsService } from './services/Notifications.service';
+import { PushNotificationsService } from '../../services/pushnotifications.service';
 import {
   Notifications,
   NotificationsSchema,
@@ -15,6 +16,6 @@ import {
     ]),
   ],
   controllers: [NotificationsController],
-  providers: [NotificationsService],
+  providers: [NotificationsService, PushNotificationsService],
 })
 export class NotificationsModule {}

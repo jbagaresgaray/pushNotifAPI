@@ -20,11 +20,13 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "deploy:now": "npm run build && now",
-    "prestart:prod": "npm run build && npm run start:prod",
-    "postinstall": "npm run prestart:prod"
+    "prestart:prod": "npm run build --prefix client && npm run build && npm run start:prod",
+    "postinstall": "npm run prestart:prod",
+    "heroku-prebuild": "npm install --prefix client"
   },
   "dependencies": {
     "@nestjs/common": "^7.0.0",
+    "@nestjs/config": "^0.5.0",
     "@nestjs/core": "^7.0.0",
     "@nestjs/mongoose": "^7.0.1",
     "@nestjs/platform-express": "^7.0.0",

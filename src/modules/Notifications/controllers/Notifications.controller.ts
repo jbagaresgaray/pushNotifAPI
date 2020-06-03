@@ -14,12 +14,15 @@ import { Response } from 'express';
 
 import { NotificationsService } from '../services/Notifications.service';
 import { NotificationsDTO } from '../interfaces/Notifications.interface';
-import { Notifications } from '../schema/Notifications.schema';
+import { PushNotificationsService } from '../../../services/pushnotifications.service';
 
 @ApiTags('notifications')
 @Controller('notifications')
 export class NotificationsController {
-  constructor(private readonly notifService: NotificationsService) {}
+  constructor(
+    private readonly notifService: NotificationsService,
+    private readonly notifications: PushNotificationsService,
+  ) {}
 
   @Post()
   @ApiResponse({
@@ -30,6 +33,7 @@ export class NotificationsController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(@Body() notifDTO: NotificationsDTO, @Res() res: Response) {
     const resps = await this.notifService.create(notifDTO);
+    this.notifications.sendPushNotification(resps);
     return res.status(HttpStatus.OK).json({
       success: true,
       message: 'The record has been successfully created',
