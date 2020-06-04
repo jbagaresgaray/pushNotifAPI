@@ -1,0 +1,50 @@
+<div
+  class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+>
+  <h1 class="h2">Notifications</h1>
+</div>
+<div class="table-responsive">
+  <table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th>Actions</th>
+        <th>ID</th>
+        <th>Title</th>
+        <th>UserID</th>
+        <th>Delivered At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of notifications$ | async">
+        <td>
+          <div class="btn-group" dropdown container="body">
+            <button
+              id="button-animated"
+              dropdownToggle
+              type="button"
+              class="btn btn-secondary dropdown-toggle btn-sm"
+              aria-controls="dropdown-animated"
+            >
+              Options <span class="caret"></span>
+            </button>
+            <ul
+              id="dropdown-animated"
+              *dropdownMenu
+              class="dropdown-menu"
+              role="menu"
+              aria-labelledby="button-animated"
+            >
+              <li role="menuitem">
+                <a class="dropdown-item" (click)="deleteNotif(item)">Delete</a>
+              </li>
+            </ul>
+          </div>
+        </td>
+        <td>{{ item._id }}</td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.userId }}</td>
+        <td>{{ item.created_at | date: 'medium' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

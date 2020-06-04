@@ -1,0 +1,63 @@
+<div
+  class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+>
+  <h1 class="h2">Users</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <button class="btn btn-sm btn-outline-secondary">
+      New User
+    </button>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th>Actions</th>
+        <th>UUID</th>
+        <th>Device</th>
+        <th>Manufacturer</th>
+        <th>OS Version</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users$ | async">
+        <td>
+          <div class="btn-group" dropdown container="body">
+            <button
+              id="button-animated"
+              dropdownToggle
+              type="button"
+              class="btn btn-secondary dropdown-toggle btn-sm"
+              aria-controls="dropdown-animated"
+            >
+              Options <span class="caret"></span>
+            </button>
+            <ul
+              id="dropdown-animated"
+              *dropdownMenu
+              class="dropdown-menu"
+              role="menu"
+              aria-labelledby="button-animated"
+            >
+              <li role="menuitem">
+                <a class="dropdown-item" (click)="deleteUser(user)">Delete</a>
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item" (click)="sendNotification(user)"
+                  >Send Notification</a
+                >
+              </li>
+            </ul>
+          </div>
+        </td>
+        <td>{{ user.uuid }}</td>
+        <td>{{ user.modelName }}</td>
+        <td>{{ user.manufacturer }}</td>
+        <td>{{ user.osVersion }}</td>
+        <td><i [class]="loadPlatform(user.platform)"></i></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
