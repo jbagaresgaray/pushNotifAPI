@@ -7,6 +7,9 @@ import { AppModule } from './app.module';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
 import * as rateLimit from 'express-rate-limit';
+import * as express from 'express';
+import { join } from 'path';
+
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -20,6 +23,7 @@ async function bootstrap() {
     }),
   );
   app.setGlobalPrefix('api');
+  app.use(express.static(join(process.cwd(), './client/')));
 
   const options = new DocumentBuilder()
     .setTitle('Push Notification example')

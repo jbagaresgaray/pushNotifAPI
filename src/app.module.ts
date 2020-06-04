@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-
-import { AppController } from './modules/App/app.controller';
-import { AppService } from './services/app.service';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 import { UsersModule } from './modules/Users/Users.module';
 import { NotificationsModule } from './modules/Notifications/Notifications.module';
@@ -11,6 +10,8 @@ import { NotificationsModule } from './modules/Notifications/Notifications.modul
 import { environment } from './environments/environment';
 import firebaseConfig from './config/firebaseConfig';
 
+export const path = join(__dirname, '..', '..', 'client', 'dist');
+console.log('path: ', path);
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,10 +20,15 @@ import firebaseConfig from './config/firebaseConfig';
       load: [firebaseConfig],
     }),
     MongooseModule.forRoot(environment.mongoUrl),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'dist', 'client'),
+      serveStaticOptions: {
+        index: false,
+      },
+      exclude: ['/api*'],
+    }),
     UsersModule,
     NotificationsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
