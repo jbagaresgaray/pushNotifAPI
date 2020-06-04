@@ -36,7 +36,12 @@ export class SendNotificationsComponent implements OnInit {
       .createNotification(this.notificationObj)
       .subscribe(res => {
         console.log('createNotification: ', res);
-        this.isSending = false;
+        if (res && res.success) {
+          this.isSending = false;
+          alert(res.message);
+
+          this.bsModalRef.hide();
+        }
       });
   }
 }
