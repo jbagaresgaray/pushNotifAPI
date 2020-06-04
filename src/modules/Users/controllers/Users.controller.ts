@@ -102,4 +102,19 @@ export class UsersController {
       data: resps,
     });
   }
+
+  @Get(':userId/notifications')
+  @ApiParam({ name: 'userId', required: true })
+  @ApiResponse({
+    status: 201,
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async getDeviceNotifications(@Param('userId') userId, @Res() res: Response) {
+    const resps = await this.usersService.getDeviceNotifications(userId);
+    return res.status(HttpStatus.OK).json({
+      success: true,
+      message: '',
+      data: resps,
+    });
+  }
 }
