@@ -32,6 +32,12 @@ export class NotificationsController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(@Body() notifDTO: NotificationsDTO, @Res() res: Response) {
+    notifDTO.is_read =
+      notifDTO.is_read === undefined ? false : notifDTO.is_read;
+    notifDTO.is_removed =
+      notifDTO.is_removed === undefined ? false : notifDTO.is_removed;
+    notifDTO.created_at = new Date().toISOString();
+
     const resps = await this.notifService.create(notifDTO);
     this.notifications.sendPushNotification(resps);
     return res.status(HttpStatus.OK).json({

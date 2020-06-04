@@ -24,22 +24,27 @@ export class PushNotificationsService {
   }
 
   sendPushNotification(message: any) {
+    console.log('message: ', message);
     const newMessage = {
       notification: {
         title: message._doc.title,
         body: message._doc.message,
-        tag: 'notification',
-        
       },
       data: {
         notification_id: message._doc._id.toString(),
         created_at: message._doc.created_at,
-        is_removed: JSON.stringify(message._doc.is_removed),
-        is_read: JSON.stringify(message._doc.is_read),
+        is_removed:
+          message._doc.is_removed === undefined
+            ? false
+            : JSON.stringify(message._doc.is_removed),
+        is_read:
+          message._doc.is_read === undefined
+            ? false
+            : JSON.stringify(message._doc.is_read),
         userId: message._doc.userId,
         ...message._doc.data,
       },
-      token: message.receiverToken,
+      token: message.receiverToken || message.token,
     };
     console.log('newMessage: ', newMessage);
 
